@@ -20,7 +20,17 @@ configurations {
 }
 
 repositories {
+  jcenter()
   mavenCentral()
+}
+
+val springCloudVersion = "Hoxton.SR4"
+
+dependencyManagement {
+  imports {
+    mavenBom("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+    mavenBom("org.apache.camel.springboot:camel-spring-boot-dependencies:3.2.0")
+  }
 }
 
 dependencies {
@@ -33,6 +43,12 @@ dependencies {
 
   implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
   implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+
+  implementation("org.springframework.cloud:spring-cloud-starter-config")
+  implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
+  implementation("org.apache.camel.springboot:camel-kafka-starter")
+  implementation("org.springframework.kafka:spring-kafka")
+  implementation("org.apache.kafka:kafka-clients")
 
   developmentOnly("org.springframework.boot:spring-boot-devtools")
   testImplementation("org.springframework.boot:spring-boot-starter-test") {

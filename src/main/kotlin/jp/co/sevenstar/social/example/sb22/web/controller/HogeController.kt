@@ -1,12 +1,18 @@
 package jp.co.sevenstar.social.example.sb22.web.controller
 
+import org.apache.camel.CamelContext
+import org.apache.camel.ProducerTemplate
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-class HogeController {
+class HogeController(
+  val camelContext: CamelContext,
+  val producerTemplate: ProducerTemplate
+) {
   var logger: Logger = LoggerFactory.getLogger(HogeController::class.java)
 
   @RequestMapping("/hoge")
@@ -24,5 +30,10 @@ class HogeController {
   fun content2(): String {
     logger.info("HogeController.content2() called!!")
     return "content2"
+  }
+
+  @PostMapping("/send")
+  fun send() {
+
   }
 }
