@@ -13,4 +13,16 @@ class HogeController {
   fun hoge() {
     logger.info("HogeController.hoge() called!!")
   }
+
+  @RequestMapping("/content1")
+  fun content1(): String {
+    logger.info("HogeController.content1() called!!")
+    return "content1"
+  }
+
+  @RequestMapping("/content2")
+  fun content2(): String {
+    logger.info("HogeController.content2() called!!")
+    return "content2"
+  }
 }
