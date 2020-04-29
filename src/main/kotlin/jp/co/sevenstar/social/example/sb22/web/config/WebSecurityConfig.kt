@@ -16,16 +16,16 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
   @Throws(Exception::class)
   override fun configure(http: HttpSecurity) {
     http
-            .authorizeRequests()
-            .antMatchers("/", "/home").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin()
-            .loginPage("/login")
-            .permitAll()
-            .and()
-            .logout()
-            .permitAll()
+      .authorizeRequests()
+      .antMatchers("/", "/home").permitAll()
+      .anyRequest().authenticated()
+      .and()
+      .formLogin()
+      .loginPage("/login")
+      .permitAll()
+      .and()
+      .logout()
+      .permitAll()
   }
 
   @Bean
@@ -33,9 +33,9 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     val encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder()
 
     val user = User.withUsername("user")
-            .password(encoder.encode("password"))
-            .roles("USER")
-            .build()
+      .password(encoder.encode("password"))
+      .roles("USER")
+      .build()
     return InMemoryUserDetailsManager(user)
   }
 }
