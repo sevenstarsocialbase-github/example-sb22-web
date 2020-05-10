@@ -1,8 +1,15 @@
-spring:
-  kafka:
-    bootstrap-servers: localhost:9092
+#spring:
+#  thymeleaf:
+#    mode: HTML
 
-application:
-  settings:
-    title: title1
-    name: test
+camel:
+  component:
+    kafka:
+      schema-registry-u-r-l: http://localhost:8081
+      brokers: http://localhost:9092
+      # producer config
+      #      lazy-start-producer: true
+      #      request-timeout-ms: 10000
+      retries: 3
+
+

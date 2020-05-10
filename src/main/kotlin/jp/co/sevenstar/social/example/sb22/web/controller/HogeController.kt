@@ -1,8 +1,9 @@
 package jp.co.sevenstar.social.example.sb22.web.controller
 
-import org.apache.camel.CamelContext
-import org.apache.camel.ProducerTemplate
-import org.slf4j.Logger
+import jp.co.sevenstar.social.example.sb22.web.kafka.MessageProducer
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
@@ -10,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 class HogeController(
-  val camelContext: CamelContext,
-  val producerTemplate: ProducerTemplate
+  val messageProducer: MessageProducer
 ) {
-  var logger: Logger = LoggerFactory.getLogger(HogeController::class.java)
+  companion object {
+    private val logger = LoggerFactory.getLogger(this::class.java.enclosingClass)
+  }
 
   @RequestMapping("/hoge")
   fun hoge() {
@@ -33,7 +35,18 @@ class HogeController(
   }
 
   @PostMapping("/send")
-  fun send() {
-
+  fun send(): String {
+    GlobalScope.launch {
+      runCatching {
+        delay(1000L)
+        logger.info("world")
+        messageProducer.publish()
+      }.onFailure {
+        logger.error("catch error", it)
+      }
+    }
+    logger.info("hello,")
+    Thread.sleep(2000L)
+    return "hello"
   }
 }
