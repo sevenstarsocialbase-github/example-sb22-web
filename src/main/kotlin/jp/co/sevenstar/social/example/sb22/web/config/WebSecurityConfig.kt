@@ -25,6 +25,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
       .permitAll()
       .and()
       .logout()
+      .deleteCookies("JSESSIONID")
       .permitAll()
   }
 
