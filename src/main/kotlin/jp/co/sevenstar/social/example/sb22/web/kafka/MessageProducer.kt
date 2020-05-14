@@ -1,5 +1,6 @@
 package jp.co.sevenstar.social.example.sb22.web.kafka
 
+import jp.co.sevenstar.social.example.sb22.schema.avro.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.apache.camel.ProducerTemplate
@@ -19,7 +20,11 @@ class MessageProducer(val producerTemplate: ProducerTemplate) {
       logger.info("start send")
       producerTemplate.send(direct("kafka-producer-route").uri,
         ExchangeBuilder.anExchange(producerTemplate.camelContext)
-          .withBody("hello!")
+          .withBody(User().apply {
+            setName("sevenstars")
+            favoriteNumber = 7
+            favoriteColor = "black"
+          })
           .build()
       )
       logger.info("end send")
