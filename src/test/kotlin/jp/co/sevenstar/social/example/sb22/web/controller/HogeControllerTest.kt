@@ -1,7 +1,7 @@
 package jp.co.sevenstar.social.example.sb22.web.controller
 
+import brave.Tracer
 import brave.Tracing
-import brave.http.HttpTracing
 import com.ninjasquad.springmockk.MockkBean
 import io.kotlintest.TestCase
 import io.kotlintest.specs.StringSpec
@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(HogeController::class)
-// @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class HogeControllerTest : StringSpec() {
@@ -31,13 +30,12 @@ class HogeControllerTest : StringSpec() {
   lateinit var messageProducer: MessageProducer
 
   @MockkBean
-  lateinit var httpTracing: HttpTracing
+  lateinit var tracer: Tracer
 
   override fun listeners() = listOf(SpringListener)
 
   override fun beforeTest(testCase: TestCase) {
-    val tracing = Tracing.newBuilder().build()
-    httpTracing = HttpTracing.create(tracing)
+    tracer = Tracing.newBuilder().build().tracer()
   }
 
   init {

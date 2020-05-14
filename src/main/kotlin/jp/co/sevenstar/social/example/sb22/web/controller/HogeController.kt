@@ -1,6 +1,6 @@
 package jp.co.sevenstar.social.example.sb22.web.controller
 
-import brave.http.HttpTracing
+import brave.Tracer
 import jp.co.sevenstar.social.example.sb22.web.kafka.MessageProducer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 class HogeController(
   val messageProducer: MessageProducer,
-  val tracing: HttpTracing
+  val tracer: Tracer
 ) {
   companion object {
     private val logger = LoggerFactory.getLogger(this::class.java.enclosingClass)
@@ -39,7 +39,7 @@ class HogeController(
 
   @PostMapping("/send")
   fun send(): String {
-    val traceId = tracing.tracing().tracer().currentSpan().context().traceIdString()
+    val traceId = tracer.currentSpan().context().traceIdString()
 
     CoroutineScope(Dispatchers.IO).launch {
       runCatching {
