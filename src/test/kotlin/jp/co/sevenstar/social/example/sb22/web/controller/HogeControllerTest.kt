@@ -7,6 +7,7 @@ import io.kotlintest.TestCase
 import io.kotlintest.specs.StringSpec
 import io.kotlintest.spring.SpringListener
 import jp.co.sevenstar.social.example.sb22.web.kafka.MessageProducer
+import org.hamcrest.CoreMatchers.containsString
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -15,7 +16,9 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultMatcher.matchAll
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @ExtendWith(SpringExtension::class)
@@ -41,7 +44,15 @@ class HogeControllerTest : StringSpec() {
   init {
     "login" {
       mockMvc.perform(get("/login").accept(MediaType.TEXT_PLAIN))
-        .andExpect(status().isOk)
+        .andExpect(
+          matchAll(
+            status().isOk,
+            content().string(containsString("<title>Spring Security Example</title>")),
+            content().string(containsString("User Name:")),
+            content().string(containsString("Password:")),
+            content().string(containsString("Sign In"))
+          )
+        )
     }
   }
 }
