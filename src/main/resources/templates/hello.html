@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/default}">
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--      layout:decorate="~{layouts/default}">-->
+
 <head>
     <title>
         <div th:text="#{hello.title}"></div>
@@ -15,7 +16,7 @@
 <hr>
 <form th:action="@{/send}" method="post">
     <input type="checkbox" name="permission">
-    <div th:replace="#{checkbox.agreement}"></div>
+    <!--    <div th:replace="#{checkbox.agreement}"></div>-->
     <br>
     <!--/*@thymesVar id="message" type="java.lang.String"*/-->
     <input type="text" value="this is message." th:text="${message}" name="message">
